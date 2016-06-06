@@ -8,14 +8,10 @@ class Clown
     @correct = true
     @clowns_line = opts[:clowns_line]
     @color = opts[:color]
-
-
-    @known_reds = 0
-    @known_blues = 0
-    count_hats_ahead
   end
 
   def say_answer
+    count_hats_ahead
     answer = figure_what_answer_to_say
     @correct = @color == answer
     {color_spoken: answer, correct: @correct, position: @pos}
@@ -48,9 +44,11 @@ class Clown
   end
 
   def count_hats_ahead
+    @known_reds = 0
+    @known_blues = 0
     i = pos + 1
     while i < @clowns_line.length
-      seen_color = clowns_line[i].color
+      seen_color = @clowns_line[i].color
       if seen_color == :red
         @known_reds += 1
       else
