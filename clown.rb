@@ -35,7 +35,16 @@ class Clown
     #This is where you put your algorithm!!
     #Make an algorithm that will save the maximum amount of people for sure
 
-    @known_reds > @known_blues ? :red : :blue
+    # blue = 0.  red = 1.  Let's go for parity of 0.
+    last_guess_was_red = @color == :red
+
+    reds = @known_reds + (last_guess_was_red ? 1 : 0)
+
+    if reds % 2 == 1
+      return :red
+    else
+      return :blue
+    end
   end
 
   def count_hats_ahead
