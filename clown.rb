@@ -23,6 +23,9 @@ class Clown
     @pos_last_heard_answer = heard_answer[:position]
     @last_speaker_correct = heard_answer[:correct]
     @color_last_speaker_said = heard_answer[:color_spoken]
+    @reds_spoken ||= 0
+    @reds_spoken += 1 if heard_answer[:color_spoken] == :red
+    # p "@pos: #{@pos} heard_answer[:color_spoken]: #{heard_answer[:color_spoken]} @reds_spoken now: #{@reds_spoken}"
   end
 
   private
@@ -32,9 +35,9 @@ class Clown
     #Make an algorithm that will save the maximum amount of people for sure
 
     # blue = 0.  red = 1.  Let's go for parity of 0.
-    last_guess_was_red = @color == :red
-
-    reds = @known_reds + (last_guess_was_red ? 1 : 0)
+    @reds_spoken ||= 0
+    reds = @reds_spoken + @known_reds
+    # p "@pos: #{@pos} reds: #{reds} @known_reds: #{@known_reds}"
 
     if reds % 2 == 1
       return :red
